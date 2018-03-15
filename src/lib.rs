@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::convert::From;
 
+#[derive(Debug)]
 pub enum Shaun {
     Null(),
     Number(f64,String),
@@ -30,7 +31,7 @@ impl From<bool> for Shaun {
 
 impl<T> From<Vec<T>> for Shaun where Shaun : From<T> {
     fn from(x:Vec<T>) -> Self {
-        Shaun::List(x.into_iter().map(|e| { Shaun::from(e) }).collect())
+        Shaun::List(x.into_iter().map(Shaun::from).collect())
     }
 }
 
