@@ -41,8 +41,8 @@ impl<T> From<HashMap<String,T>> for Shaun where Shaun : From<T> {
     }
 }
 
-impl From<&str> for Shaun {
-    fn from(x:&str) -> Self {
+impl<'a> From<&'a str> for Shaun {
+    fn from(x:&'a str) -> Self {
         Shaun::String(String::from(x))
     }
 }
