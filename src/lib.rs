@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::convert::From;
 
 #[derive(Debug)]
+#[derive(PartialEq)]
 pub enum Shaun {
     Null(),
     Number(f64,String),
