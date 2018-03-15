@@ -40,3 +40,9 @@ impl<T> From<HashMap<String,T>> for Shaun where Shaun : From<T> {
         Shaun::Object(x.into_iter().map(|(k,v)| { (k, Shaun::from(v)) }).collect())
     }
 }
+
+impl From<&str> for Shaun {
+    fn from(x:&str) -> Self {
+        Shaun::String(String::from(x))
+    }
+}
