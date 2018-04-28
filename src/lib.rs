@@ -1,3 +1,6 @@
+#![feature(try_from)]
+#![feature(try_into)]
+
 mod shaun_type;
 mod parser;
 
