@@ -262,7 +262,7 @@ fn parse_name(toks : &Vec<ParseToken>, i : &mut usize) -> String {
 
 fn parse_object(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
     let mut obj = HashMap::new();
-    while toks[*i] != ParseToken::Key('}'.to_string()) {
+    while *i < toks.len() && toks[*i] != ParseToken::Key('}'.to_string()) {
         let name = parse_name(toks, i);
         *i = *i + 1;
         let value = parse_value(toks, i);
