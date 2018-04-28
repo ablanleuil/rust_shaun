@@ -1,7 +1,7 @@
 extern crate shaun;
 
 use shaun::Shaun;
-use shaun::Shaun::*;
+use shaun::Shaun::{Number};
 
 #[test]
 fn from_float() {

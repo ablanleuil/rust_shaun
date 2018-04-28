@@ -2,5 +2,3 @@
 name = "shaun"
 version = "0.1.0"
 authors = ["shumush"]
-
-[dependencies]
