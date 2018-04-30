@@ -4,5 +4,5 @@ version = "0.2.0"
 authors = ["shumush"]
 
 [dependencies]
-serde = "0.9.3"
-serde_derive = "0.9.3"
+serde = "*"
+serde_derive = "*"
