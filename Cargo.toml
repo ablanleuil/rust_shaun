@@ -1,8 +1,8 @@
 [package]
 name = "shaun"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["shumush"]
 
 [dependencies]
-serde = "*"
-serde_derive = "*"
+serde = "0.9.3"
+serde_derive = "0.9.3"
