@@ -10,6 +10,8 @@ mod parser;
 
 // Shaun type
 pub use shaun_type::Shaun;
+pub use shaun_type::ShaunError;
+pub use shaun_type::ShaunError::*;
 pub use shaun_type::Shaun::*;
 
 // parsing functions
