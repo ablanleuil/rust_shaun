@@ -20,6 +20,15 @@ enum ParseAtom {
     Null(),
 }
 
+/*
+ * SlideWindow represents a fixed size sliding [char]:
+ *
+ * let window : SlideWindow = SlideWindow::new(3)
+ * window.push('a')    //  "a"
+ * window.push('b')    //  "ab"
+ * window.push('c')    //  "bc"
+ * window.push('d')    //  "cd"
+ */
 #[derive(Debug)]
 struct SlideWindow {
     arr : Vec<char>,

@@ -2,3 +2,7 @@
 name = "shaun"
 version = "0.1.1"
 authors = ["shumush"]
+
+[dependencies]
+serde = "*"
+serde_derive = "*"

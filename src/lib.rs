@@ -1,6 +1,10 @@
 #![feature(try_from)]
 #![feature(try_into)]
 
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
+
 mod shaun_type;
 mod parser;
 
