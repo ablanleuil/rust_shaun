@@ -41,7 +41,7 @@ dependencies = [
 
 [[package]]
 name = "shaun"
-version = "0.2.0"
+version = "0.3.1"
 dependencies = [
  "serde 1.0.43 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.43 (registry+https://github.com/rust-lang/crates.io-index)",

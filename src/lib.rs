@@ -17,3 +17,4 @@ pub use shaun_type::Shaun::*;
 // parsing functions
 pub use parser::parse_str;
 pub use parser::parse_string;
+pub use parser::parse_file;

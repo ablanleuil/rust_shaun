@@ -1,5 +1,9 @@
 use shaun_type::Shaun;
 
+use std::fs::File;
+use std::io::prelude::*;
+use std::path::Path;
+
 use std::collections::HashMap;
 use std::iter::Peekable;
 use std::vec::Vec;
@@ -330,6 +334,19 @@ pub fn parse_str<'a>(s:&'a str) -> Shaun {
 
 pub fn parse_string(s:String) -> Shaun {
     let mut it = s.chars().peekable();
+    let vec = lex(&mut it);
+    parse_all(&vec, &mut 0)
+}
+
+pub fn parse_file(filepath:&Path) -> Shaun {
+    let mut s  = String::new();
+    let mut f = File::open(filepath)
+        .expect("Shaun::parse_file(): Something went wrong while opening file.");
+
+    f.read_to_string(&mut s)
+        .expect("Shaun::parse_file(): Something went wrong while reading file.");
+    let mut it = s.chars().peekable();
+
     let vec = lex(&mut it);
     parse_all(&vec, &mut 0)
 }
