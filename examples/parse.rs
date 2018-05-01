@@ -7,7 +7,7 @@ fn main() {
 
     match sn.to_mut_map() {
         Ok(v) => {
-            println!("{:?}", v.entry(String::from("hello")).or_insert(Shaun::Null()));
+            println!("{:?}", v.entry(String::from("hello")).or_insert(Shaun::Null));
             println!("{:?}", v.entry(String::from("hi")).or_insert(Shaun::from("how are you ?")));
         },
         Err(e) => println!("{:?}", e),

@@ -4,8 +4,9 @@ use std::convert::TryInto;
 use std::clone::Clone;
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
 pub enum Shaun {
-    Null(),
+    Null,
     Number(f64,String),
     String(String),
     Bool(bool),
@@ -15,13 +16,13 @@ pub enum Shaun {
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
 pub enum ShaunError {
-    NotANumber(),
-    NotAString(),
-    NotABool(),
-    NotAList(),
-    NotAnObject(),
-    OutOfBound(),
-    AttributeNotFound(),
+    NotANumber,
+    NotAString,
+    NotABool,
+    NotAList,
+    NotAnObject,
+    OutOfBound,
+    AttributeNotFound,
 }
 
 impl Shaun {
@@ -41,7 +42,7 @@ impl Shaun {
 
     pub fn is_null(&self) -> bool {
         match self {
-            &Shaun::Null() => true,
+            &Shaun::Null => true,
             _ => false,
         }
     }
@@ -70,28 +71,28 @@ impl Shaun {
     pub fn to_vec(&self) -> Result<&Vec<Shaun>, ShaunError> {
         match self {
             &Shaun::List(ref v) => Ok(v),
-            _ => Err(ShaunError::NotAList()),
+            _ => Err(ShaunError::NotAList),
         }
     }
 
     pub fn to_map(&self) -> Result<&HashMap<String, Shaun>, ShaunError> {
         match self {
             &Shaun::Object(ref o) => Ok(o),
-            _ => Err(ShaunError::NotAnObject()),
+            _ => Err(ShaunError::NotAnObject),
         }
     }
 
     pub fn to_mut_vec(&mut self) -> Result<&mut Vec<Shaun>, ShaunError> {
         match self {
             &mut Shaun::List(ref mut v) => Ok(v),
-            _ => Err(ShaunError::NotAList()),
+            _ => Err(ShaunError::NotAList),
         }
     }
 
     pub fn to_mut_map(&mut self) -> Result<&mut HashMap<String, Shaun>, ShaunError> {
         match self {
             &mut Shaun::Object(ref mut o) => Ok(o),
-            _ => Err(ShaunError::NotAnObject()),
+            _ => Err(ShaunError::NotAnObject),
         }
     }
 }
@@ -101,7 +102,7 @@ impl TryInto<f64> for Shaun {
     fn try_into(self) -> Result<f64, ShaunError> {
         match self {
             Shaun::Number(x,_) => Ok(x),
-            _ => Err(ShaunError::NotANumber()),
+            _ => Err(ShaunError::NotANumber),
         }
     }
 }
@@ -111,7 +112,7 @@ impl TryInto<String> for Shaun {
     fn try_into(self) -> Result<String, ShaunError> {
         match self {
             Shaun::String(s) => Ok(s),
-            _ => Err(ShaunError::NotAString()),
+            _ => Err(ShaunError::NotAString),
         }
     }
 }
@@ -121,7 +122,7 @@ impl TryInto<bool> for Shaun {
     fn try_into(self) -> Result<bool, ShaunError> {
         match self {
             Shaun::Bool(s) => Ok(s),
-            _ => Err(ShaunError::NotABool()),
+            _ => Err(ShaunError::NotABool),
         }
     }
 }
@@ -131,7 +132,7 @@ impl TryInto<Vec<Shaun>> for Shaun {
     fn try_into(self) -> Result<Vec<Shaun>, ShaunError> {
         match self {
             Shaun::List(v) => Ok(v),
-            _ => Err(ShaunError::NotAList()),
+            _ => Err(ShaunError::NotAList),
         }
     }
 }
@@ -141,7 +142,7 @@ impl TryInto<HashMap<String, Shaun>> for Shaun {
     fn try_into(self) -> Result<HashMap<String, Shaun>, ShaunError> {
         match self {
             Shaun::Object(o) => Ok(o),
-            _ => Err(ShaunError::NotAnObject()),
+            _ => Err(ShaunError::NotAnObject),
         }
     }
 }

@@ -17,7 +17,7 @@ enum ParseAtom {
     String(String),
     Bool(bool),
     Double(f64),
-    Null(),
+    Null,
 }
 
 /*
@@ -197,7 +197,7 @@ where I : Iterator<Item=char> {
                     let id = lex_id(it);
                     if id == "true" { ret.push(ParseToken::Atom(ParseAtom::Bool(true))) }
                     else if id == "false" { ret.push(ParseToken::Atom(ParseAtom::Bool(false))) }
-                    else if id == "null" { ret.push(ParseToken::Atom(ParseAtom::Null())) }
+                    else if id == "null" { ret.push(ParseToken::Atom(ParseAtom::Null)) }
                     else { ret.push(ParseToken::Id(id)) }
                 }
 
@@ -254,7 +254,7 @@ fn atom_to_value(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
             Shaun::Bool(*b)
         },
         _ => {
-            Shaun::Null()
+            Shaun::Null
         }
     };
 
@@ -299,9 +299,9 @@ fn parse_value(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
                 parse_object(toks, i)
             } else if *k == '['.to_string() {
                 parse_list(toks, i)
-            } else { Shaun::Null() }
+            } else { Shaun::Null }
         }
-        _ => Shaun::Null()
+        _ => Shaun::Null
     }
 }
 
