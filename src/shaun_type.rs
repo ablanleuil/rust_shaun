@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::convert::From;
 use std::convert::TryInto;
 use std::clone::Clone;
+use std::ops::Index;
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -93,6 +94,38 @@ impl Shaun {
         match self {
             &mut Shaun::Object(ref mut o) => Ok(o),
             _ => Err(ShaunError::NotAnObject),
+        }
+    }
+
+    pub fn get<'a, T>(&self, id:&'a T) -> Result<& Shaun, ShaunError> where String : From<&'a T> {
+        match self {
+            &Shaun::Object(ref o) => {
+                let s = String::from(id);
+                o.get(&s).ok_or_else(move || ShaunError::AttributeNotFound)
+            },
+            _ => Err(ShaunError::NotAnObject),
+        }
+    }
+
+    pub fn get_mut<'a, T>(&mut self, id:&'a T) -> Result<&mut Shaun, ShaunError> where String : From<&'a T> {
+        match self {
+            &mut Shaun::Object(ref mut o) => {
+                let s = String::from(id);
+                o.get_mut(&s).ok_or_else(move || ShaunError::AttributeNotFound)
+            },
+            _ => Err(ShaunError::NotAnObject),
+        }
+    }
+}
+
+impl<T : Into<usize>> Index<T> for Shaun {
+    type Output = Shaun;
+    fn index(&self, index:T) -> &Shaun {
+        if let &Shaun::List(ref v) = self {
+            let id : usize = index.into();
+            &v[id]
+        } else {
+            &Shaun::Null
         }
     }
 }
