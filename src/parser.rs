@@ -169,6 +169,7 @@ where I : Iterator<Item=char> {
         stream.next();
     }
 
+    stream.next();
     buffer
 }
 
@@ -179,10 +180,23 @@ where I : Iterator<Item=char> {
     while stream.peek().is_some() {
         let c = *stream.peek().unwrap();
         if c == '"' { break }
-        buffer.push(c);
+        if c == '\\' {
+            let c2 = stream.next().unwrap();
+            buffer.push(match c2 {
+                'n' => '\n',
+                't' => '\t',
+                'r' => '\r',
+                _   => c2,
+            })
+        }
+        else {
+            buffer.push(c)
+        }
+
         stream.next();
     }
     
+    stream.next();
     buffer
 }
 
@@ -233,7 +247,6 @@ where I : Iterator<Item=char> {
                 }
             }
         }
-        it.next();
     }
 
     ret

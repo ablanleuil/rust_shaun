@@ -1,6 +1,6 @@
 [package]
 name = "shaun"
-version = "0.3.2"
+version = "0.4.2"
 authors = ["shumush"]
 
 [dependencies]
