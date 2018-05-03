@@ -221,29 +221,32 @@ where I : Iterator<Item=char> {
 
                 // Double case
                 // manages f64 numbers
-                if is_double_begin(c) {
+                else if is_double_begin(c) {
                     let dbl = lex_number(it);
                     ret.push(ParseToken::Atom(ParseAtom::Double(dbl)))
                 }
 
                 // Keyword case
                 // manages every 1 character keys (mostly delimiters such as '{' '}')
-                if is_kwd(c) {
+                else if is_kwd(c) {
                     ret.push(ParseToken::Key(c.to_string()))
                 }
 
                 // Comment case
                 // comments are embeded in the Shaun datastructure
                 // for dumping them into a file, if wanted
-                if is_comment_begin(c) {
+                else if is_comment_begin(c) {
                     let comment = lex_comment(it);
                     ret.push(ParseToken::Comment(comment))
                 }
 
                 // String case
-                if c == '"' {
+                else if c == '"' {
                     let string = lex_string(it);
                     ret.push(ParseToken::Atom(ParseAtom::String(string)))
+                }
+                else {
+                    it.next();
                 }
             }
         }
