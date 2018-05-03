@@ -181,7 +181,8 @@ where I : Iterator<Item=char> {
         let c = *stream.peek().unwrap();
         if c == '"' { break }
         if c == '\\' {
-            let c2 = stream.next().unwrap();
+            stream.next();
+            let c2 = *stream.peek().unwrap();
             buffer.push(match c2 {
                 'n' => '\n',
                 't' => '\t',
