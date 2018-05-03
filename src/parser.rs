@@ -324,12 +324,23 @@ fn parse_name(toks : &Vec<ParseToken>, i : &mut usize) -> String {
 }
 
 fn parse_object(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
+    *i = *i + 1;
+    let ret = parse_raw_object(toks, i);
+    *i = *i + 1;
+
+    ret
+}
+
+
+fn parse_raw_object(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
     let mut obj = HashMap::new();
-    while *i < toks.len() && toks[*i] != ParseToken::Key('}'.to_string()) {
+    while let ParseToken::Id(_) = toks[*i] {
         let name = parse_name(toks, i);
         *i = *i + 1;
         let value = parse_value(toks, i);
+        println!("parsed object attrib {:?} {:?}", name, value);
         obj.insert(name, value);
+        if *i >= toks.len() { break }
     }
 
     Shaun::Object(obj)
@@ -337,9 +348,13 @@ fn parse_object(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
 
 fn parse_list(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
     let mut list = Vec::new();
+
+    *i = *i + 1;
     while toks[*i] != ParseToken::Key(']'.to_string()) {
         list.push(parse_value(toks, i))
     }
+
+    *i = *i + 1;
 
     Shaun::List(list)
 }
@@ -348,7 +363,6 @@ fn parse_value(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
     match toks[*i] {
         ParseToken::Atom(ref _a) => atom_to_value(toks, i),
         ParseToken::Key(ref k) => {
-            *i = *i + 1;
             if *k == '{'.to_string() {
                 parse_object(toks, i)
             } else if *k == '['.to_string() {
@@ -361,10 +375,9 @@ fn parse_value(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
 
 fn parse_all(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
     match toks[*i] {
-        ParseToken::Key(ref k) => { if *k == '{'.to_string() { *i = *i + 1 } },
-        _ => { },
+        ParseToken::Key(ref k) => { if *k == '{'.to_string() { parse_object(toks, i) } else { Shaun::Null } },
+        _ => { parse_raw_object(toks, i) },
     }
-    parse_object(toks, i)
 }
 
 /*
@@ -399,5 +412,8 @@ pub fn parse_file(filepath:&Path) -> Shaun {
     let mut it = s.chars().peekable();
 
     let vec = lex(&mut it);
+    for e in &vec {
+        println!("{:?}", e)
+    }
     parse_all(&vec, &mut 0)
 }
