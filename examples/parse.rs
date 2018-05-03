@@ -13,5 +13,5 @@ fn main() {
         Err(e) => println!("{:?}", e),
     }
 
-    println!("{:?}", sn.to_mut_map().unwrap().entry(String::from("hi")).or_insert(Shaun::Null()))
+    println!("{:?}", sn.to_mut_map().unwrap().entry(String::from("hi")).or_insert(Shaun::Null))
 }

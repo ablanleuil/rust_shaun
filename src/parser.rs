@@ -229,7 +229,8 @@ where I : Iterator<Item=char> {
                 // Keyword case
                 // manages every 1 character keys (mostly delimiters such as '{' '}')
                 else if is_kwd(c) {
-                    ret.push(ParseToken::Key(c.to_string()))
+                    ret.push(ParseToken::Key(c.to_string()));
+                    it.next();
                 }
 
                 // Comment case
