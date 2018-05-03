@@ -1,0 +1,14 @@
+str1:
+"
+hello
+ there"
+
+str2:
+"hello
+  there
+"
+
+str3:"
+hello
+ there
+"

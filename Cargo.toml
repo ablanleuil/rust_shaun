@@ -1,7 +1,7 @@
 [package]
 name = "shaun"
 version = "0.4.2"
-authors = ["shumush"]
+authors = ["Arthur Blanleuil <arthur.blanleuil@gmail.com>"]
 
 [dependencies]
 serde = "*"

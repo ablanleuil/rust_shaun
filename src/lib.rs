@@ -8,13 +8,13 @@ extern crate serde;
 mod shaun_type;
 mod parser;
 
-// Shaun type
+// Shaun type exports
 pub use shaun_type::Shaun;
 pub use shaun_type::ShaunError;
 pub use shaun_type::ShaunError::*;
 pub use shaun_type::Shaun::*;
 
-// parsing functions
+// parsing functions export
 pub use parser::parse_str;
 pub use parser::parse_string;
 pub use parser::parse_file;

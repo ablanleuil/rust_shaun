@@ -8,6 +8,20 @@ use std::collections::HashMap;
 use std::iter::Peekable;
 use std::vec::Vec;
 
+static mut COL : u32 = 0;
+static mut ROW : u32 = 0;
+
+fn advance<I>(stream : &mut Peekable<I>) where I : Iterator<Item=char> {
+    unsafe {
+        if let Some('\n') = stream.next() {
+            COL = 0;
+            ROW = ROW + 1;
+        } else {
+            COL = COL + 1;
+        }
+    }
+}
+
 #[derive(Debug, PartialEq)]
 enum ParseToken {
     Key(String),
@@ -102,10 +116,17 @@ fn is_double_char(c:char) -> bool {
         || c == '+' || c == 'e' || c == 'E'
 }
 
-/*
+/**
  * lex_<x> functions are functions which consume a stream
  * of char and return a value depending on the object we are
  * "lexing"
+ *
+ * every lex_<x> function must consume the stream to the caracter just after
+ * the read symbol.
+ *
+ * "10 years" -> lex_number() -> "10 years"
+ *  ^                               ^
+ *  before                        after
  */
 fn lex_number<I>(stream : &mut Peekable<I>) -> f64
 where I : Iterator<Item=char> {
@@ -116,7 +137,7 @@ where I : Iterator<Item=char> {
         if is_double_char(c) { buffer.push(c) }
         else { break }
 
-        stream.next();
+        advance(stream);
     }
 
     buffer.parse().unwrap()
@@ -131,7 +152,7 @@ where I : Iterator<Item=char> {
         if is_id_char(c) { buffer.push(c) }
         else { break }
 
-        stream.next();
+        advance(stream);
     }
 
     buffer
@@ -147,7 +168,7 @@ where I : Iterator<Item=char> {
     match stream.peek() {
         None => return buffer,
         Some(&'/') => {
-            stream.next();
+            advance(stream);
             match stream.peek() {
                 None => return buffer,
                 Some(&'*') => { w = SlideWindow::new(2); end = String::from("*/") },
@@ -160,28 +181,34 @@ where I : Iterator<Item=char> {
         _ => return buffer
     }
 
-    stream.next();
+    advance(stream);
     while stream.peek().is_some() {
         let c = *stream.peek().unwrap();
         w.push(c);
         if w == end { break }
         buffer.push(w.first());
-        stream.next();
+        advance(stream);
     }
 
-    stream.next();
+    advance(stream);
     buffer
 }
 
 fn lex_string<I>(stream : &mut Peekable<I>) -> String
 where I : Iterator<Item=char> {
     let mut buffer = String::new();
-    stream.next();
+    advance(stream);
+
+    if let Some(&'\n') = stream.peek() {
+        advance(stream);
+    }
+
     while stream.peek().is_some() {
         let c = *stream.peek().unwrap();
         if c == '"' { break }
+
         if c == '\\' {
-            stream.next();
+            advance(stream);
             let c2 = *stream.peek().unwrap();
             buffer.push(match c2 {
                 'n' => '\n',
@@ -194,10 +221,11 @@ where I : Iterator<Item=char> {
             buffer.push(c)
         }
 
-        stream.next();
+        advance(stream);
     }
     
-    stream.next();
+    advance(stream);
+    if let Some('\n') = buffer.chars().rev().next() { buffer.pop(); }
     buffer
 }
 
@@ -206,6 +234,10 @@ where I : Iterator<Item=char> {
  */
 fn lex<I>(it:&mut Peekable<I>) -> Vec<ParseToken>
 where I : Iterator<Item=char> {
+    unsafe {
+        COL = 0;
+        ROW = 0;
+    }
     let mut ret = Vec::new();
 
     loop {
@@ -350,6 +382,7 @@ pub fn parse_str<'a>(s:&'a str) -> Shaun {
     parse_all(&vec, &mut 0)
 }
 
+// String version of parse_str()
 pub fn parse_string(s:String) -> Shaun {
     let mut it = s.chars().peekable();
     let vec = lex(&mut it);
