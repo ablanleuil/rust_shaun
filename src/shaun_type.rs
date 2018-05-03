@@ -97,7 +97,7 @@ impl Shaun {
         }
     }
 
-    pub fn get<'a, T>(&self, id:&'a T) -> Result<& Shaun, ShaunError> where String : From<&'a T> {
+    pub fn get<T>(&self, id:T) -> Result<& Shaun, ShaunError> where String : From<T> {
         match self {
             &Shaun::Object(ref o) => {
                 let s = String::from(id);
@@ -107,7 +107,7 @@ impl Shaun {
         }
     }
 
-    pub fn get_mut<'a, T>(&mut self, id:&'a T) -> Result<&mut Shaun, ShaunError> where String : From<&'a T> {
+    pub fn get_mut<T>(&mut self, id:T) -> Result<&mut Shaun, ShaunError> where String : From<T> {
         match self {
             &mut Shaun::Object(ref mut o) => {
                 let s = String::from(id);
