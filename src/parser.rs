@@ -57,7 +57,6 @@ impl SlideWindow {
     pub fn new(n:usize) -> SlideWindow { let mut v = Vec::new(); v.resize(n, '\0'); SlideWindow { arr: v, id : 0 } }
 
     pub fn push(&mut self, e:char) -> () {
-        println!("{:?}", self);
         let len = self.arr.len();
         if self.id < len { self.arr[self.id] = e; self.id = self.id+1; return; }
         for i in 1..len {
@@ -338,7 +337,6 @@ fn parse_raw_object(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
         let name = parse_name(toks, i);
         *i = *i + 1;
         let value = parse_value(toks, i);
-        println!("parsed object attrib {:?} {:?}", name, value);
         obj.insert(name, value);
         if *i >= toks.len() { break }
     }
