@@ -378,28 +378,40 @@ fn parse_all(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
     }
 }
 
-/*
- * parse_str(str) parses a str to a Shaun value.
- * it works as follow:
- *
- * let vec = lex(str);
- * let val = parse(vec);
- * return val
- *
- */
+/// Parses a raw str to a Shaun value.
+///
+/// # Examples
+/// ```
+/// let parsed = parse_str("{ am_i_parsed: true }");
+/// println!("Parsed value is {}", parsed);
+/// ```
 pub fn parse_str<'a>(s:&'a str) -> Shaun {
     let mut it = s.chars().peekable();
     let vec = lex(&mut it);
     parse_all(&vec, &mut 0)
 }
 
-// String version of parse_str()
+
+/// Parses a String to a Shaun value.
+///
+/// # Examples
+/// ```
+/// let parsed = parse_string(String("{ am_i_parsed: true }"));
+/// println!("Parsed value is {}", parsed);
+/// ```
 pub fn parse_string(s:String) -> Shaun {
     let mut it = s.chars().peekable();
     let vec = lex(&mut it);
     parse_all(&vec, &mut 0)
 }
 
+/// Opens a file and parse its content.
+///
+/// # Examples
+/// ```
+/// let parsed = parse_file("my_file.sn");
+/// println!("Parsed value is {}", parsed);
+/// ```
 pub fn parse_file(filepath:&Path) -> Shaun {
     let mut s  = String::new();
     let mut f = File::open(filepath)

@@ -1,4 +1,7 @@
-#![feature(try_from)]
+
+///! # shaun
+///! `shaun` (standing for Shaun HAtes Ugly Notations) is a notation language based on
+///! HJSON. This crate contains everything to manipulate SHAUN data.
 
 #[macro_use]
 extern crate serde_derive;
