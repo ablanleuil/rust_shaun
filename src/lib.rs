@@ -9,6 +9,7 @@ extern crate serde;
 
 mod shaun_type;
 mod parser;
+mod visitor;
 
 // Shaun type exports
 pub use shaun_type::Shaun;
@@ -20,3 +21,6 @@ pub use shaun_type::Shaun::*;
 pub use parser::parse_str;
 pub use parser::parse_string;
 pub use parser::parse_file;
+
+pub use visitor::Visitor;
+pub use visitor::PrettyPrinter;

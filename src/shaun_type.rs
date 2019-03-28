@@ -1,3 +1,5 @@
+use visitor::Visitor;
+
 use std::collections::HashMap;
 use std::convert::From;
 use std::convert::TryInto;
@@ -138,6 +140,17 @@ impl Shaun {
             _ => Err(ShaunError::NotAList)
         }
     }
+
+    pub fn visit_with<T>(&self, visitor:&mut T) where T : Visitor {
+        match self {
+            &Shaun::Null => visitor.visit_null(),
+            &Shaun::Number(ref v, ref u) => visitor.visit_number(v, u),
+            &Shaun::String(ref v) => visitor.visit_string(v),
+            &Shaun::Bool(ref v) => visitor.visit_bool(v),
+            &Shaun::List(ref l) => visitor.visit_list(l),
+            &Shaun::Object(ref o) => visitor.visit_object(o),
+        }
+    }
 }
 
 impl<T : Into<usize>> Index<T> for Shaun {
@@ -243,4 +256,3 @@ impl<'a> From<&'a str> for Shaun {
         Shaun::String(String::from(x))
     }
 }
-
