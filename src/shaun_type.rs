@@ -116,6 +116,28 @@ impl Shaun {
             _ => Err(ShaunError::NotAnObject),
         }
     }
+
+    pub fn at<I>(&self, index: I) -> Result<& Shaun, ShaunError> where usize : From<I> {
+	let i : usize = index.into();
+        match self {
+            &Shaun::List(ref v) => {
+                if v.len() <= i { Err(ShaunError::OutOfBound) }
+                else { Ok(&v[i]) }
+            },
+            _ => Err(ShaunError::NotAList)
+        }
+    }
+
+    pub fn at_mut<I>(&mut self, index: I) -> Result<&mut Shaun, ShaunError> where usize : From<I> {
+	let i : usize = index.into();
+        match self {
+            &mut Shaun::List(ref mut v) => {
+                if v.len() <= i { Err(ShaunError::OutOfBound) }
+                else { Ok(&mut v[i]) }
+            },
+            _ => Err(ShaunError::NotAList)
+        }
+    }
 }
 
 impl<T : Into<usize>> Index<T> for Shaun {
@@ -221,3 +243,4 @@ impl<'a> From<&'a str> for Shaun {
         Shaun::String(String::from(x))
     }
 }
+
