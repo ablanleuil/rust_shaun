@@ -382,8 +382,10 @@ fn parse_all(toks : &Vec<ParseToken>, i : &mut usize) -> Shaun {
 ///
 /// # Examples
 /// ```
+/// use shaun::parse_str;
+///
 /// let parsed = parse_str("{ am_i_parsed: true }");
-/// println!("Parsed value is {}", parsed);
+/// println!("Parsed value is {:?}", parsed);
 /// ```
 pub fn parse_str<'a>(s:&'a str) -> Shaun {
     let mut it = s.chars().peekable();
@@ -396,8 +398,10 @@ pub fn parse_str<'a>(s:&'a str) -> Shaun {
 ///
 /// # Examples
 /// ```
-/// let parsed = parse_string(String("{ am_i_parsed: true }"));
-/// println!("Parsed value is {}", parsed);
+/// use shaun::parse_string;
+///
+/// let parsed = parse_string("{ am_i_parsed: true }".to_string());
+/// println!("Parsed value is {:?}", parsed);
 /// ```
 pub fn parse_string(s:String) -> Shaun {
     let mut it = s.chars().peekable();
@@ -409,8 +413,11 @@ pub fn parse_string(s:String) -> Shaun {
 ///
 /// # Examples
 /// ```
-/// let parsed = parse_file("my_file.sn");
-/// println!("Parsed value is {}", parsed);
+/// use shaun::parse_file;
+/// use std::path::Path;
+///
+/// let parsed = parse_file(Path::new("resources/my_file.sn"));
+/// println!("Parsed value is {:?}", parsed);
 /// ```
 pub fn parse_file(filepath:&Path) -> Shaun {
     let mut s  = String::new();
