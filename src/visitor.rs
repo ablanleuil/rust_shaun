@@ -25,6 +25,10 @@ impl<'a, T : Write> PrettyPrinter<'a, T> {
   fn spaces(&mut self) {
     write!(self.buffer, "{}", " ".repeat(self.level)).unwrap();
   }
+
+  pub fn result(&self) -> &T {
+      self.buffer
+  }
 }
 
 impl<'a, T : Write> Visitor for PrettyPrinter<'a, T> {
