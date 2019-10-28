@@ -38,6 +38,8 @@ impl<'a, T : Write> Visitor for PrettyPrinter<'a, T> {
   }
 
   fn visit_string(&mut self, value:&String) {
+    let value = value.replace("\\", "\\\\");
+    let value = value.replace("\"", "\\\"");
     write!(self.buffer, "\"{}\"", value).unwrap()
   }
 
